@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Index</title>
+		<link rel="stylesheet" type="text/css" href="../css/styles.css">
+	</head>
+	<body>
+		<ul class="ProjectGrid">
+		{{#each sketches}}
+			<li>
+				<a href="sketches/{{this}}">
+					<img src="sketches/{{this}}/thumbnail.png">
+				</a>
+			</li>
+		{{/each}}
+		</ul>
+	</body>
+</html>
