@@ -10,7 +10,7 @@ app.set('view engine', 'hbs');
 
 app.get('/', function (req, res) {
 	var folderList = fs.readdirSync(__dirname + '/public/sketches').filter(function(folder){ return !/^\./.test(folder); });  
-	res.render('index', { sketches: folderList });
+	res.render('index', { sketches: folderList.reverse() });
 });
 
 var server = app.listen(port, function () {

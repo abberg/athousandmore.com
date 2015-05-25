@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Index</title>
+		<title>A Thousand More</title>
+		<link href='http://fonts.googleapis.com/css?family=Podkova:400,700' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="../css/styles.css">
 	</head>
 	<body>
-		<ul class="ProjectGrid">
-		{{#each sketches}}
-			<li>
-				<a href="sketches/{{this}}">
-					<img src="sketches/{{this}}/thumbnail.png">
-				</a>
-			</li>
-		{{/each}}
-		</ul>
+		<div class="Container">
+			<h1>
+				That's pretty good&hellip;
+				<br> 
+				now do a thousand more,
+				<br>
+				and you might be getting somewhere.
+			</h1>
+			<ul class="ProjectGrid">
+			{{#each sketches}}
+				<li>
+					<a href="sketches/{{this}}">
+						<img src="sketches/{{this}}/thumbnail.png">
+					</a>
+				</li>
+			{{/each}}
+			</ul>
+		</div>
 	</body>
 </html>
