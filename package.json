@@ -2,9 +2,16 @@
   "name": "athousandmore.com",
   "version": "0.0.1",
   "description": "all the things",
-  "main": "app.js",
   "author": "Andrew Berg",
   "license": "MIT",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abberg/athousandmore.com.git"
+  },
   "dependencies": {
     "express": "~4.12.4",
     "hbs": "~3.0.1"
