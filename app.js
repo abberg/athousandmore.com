@@ -9,8 +9,28 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'hbs');
 
 app.get('/', function (req, res) {
-	var folderList = fs.readdirSync(__dirname + '/public/sketches').filter(function(folder){ return !/^\./.test(folder); });  
-	res.render('index', { sketches: folderList.reverse() });
+
+	var folderList = fs.readdirSync(__dirname + '/public/sketches').filter(function(folder){ return !/^\./.test(folder); });
+	
+	folderList.sort(function(a,b){
+		var aArr = a.split('_'),
+			bArr = b.split('_'),
+			c,
+			d,
+		
+		aArr[0].split('-');
+		aArr[1].split('-');
+		bArr[0].split('-');
+		bArr[1].split('-');
+
+		c = new Date(aArr[0][2], aArr[0][0], aArr[0][1], aArr[1][0], aArr[1][1], aArr[1][2]);
+		d = new Date(bArr[0][2], bArr[0][0], bArr[0][1], bArr[1][0], bArr[1][1], bArr[1][2]));
+
+		return c-d;
+	});  
+	
+	res.render('index', { sketches: folderList });
+
 });
 
 var server = app.listen(port, function () {
