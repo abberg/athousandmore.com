@@ -20,9 +20,38 @@
 				addLights();
 				addMeshes();
 				setupPostProcessing();
-				camera.position.set(0, 0, 15);
+				
+				
+				camera.position.z = distanceToFitObjectInFrustum(scene, camera, renderer.domElement);
+				window.addEventListener('resize', function(){
+					camera.position.z = distanceToFitObjectInFrustum(scene, camera, renderer.domElement);
+				});
+
 			},
 			
+			distanceToFitObjectInFrustum = function(object, camera, canvas){
+				
+				var cameraDistance,
+					bbox = new THREE.Box3().setFromObject(object),
+					width  = bbox.size().x,
+					height = bbox.size().y,
+					aspectRatio = canvas.width / canvas.height,
+					fieldOfView = camera.fov,
+					closestFace = bbox.max.z;
+
+				if(canvas.width < canvas.height){
+					// portrait - size via width
+					cameraDistance = ( width / aspectRatio ) / 2 / Math.tan( Math.PI * fieldOfView / 360 );
+				}else{
+					// landscape - size by height
+					cameraDistance = height / 2 / Math.tan( Math.PI * fieldOfView / 360 );
+				}
+				
+				cameraDistance += closestFace;
+
+				return cameraDistance
+			},
+
 			addLights = function(){
 				var keyLight,
 					bounceLight;
@@ -107,50 +136,6 @@
 			},
 
 			setupPostProcessing = function(){
-
-				/*
-				var width = window.innerWidth,
-				height = window.innerHeight,
-				halfWidth = width * 0.5,
-				halfHeight = height * 0.5,
-				occlusionRender,
-				horizontalBlur,
-				verticalBlur,
-				blurSize,				
-				occlusionRenderTarget,
-				sceneRender;
- 
-			occlusionRender = new THREE.RenderPass( occlusionScene, camera );
-
-			horizontalBlur = new THREE.ShaderPass( THREE.HorizontalBlurShader );
-			verticalBlur = new THREE.ShaderPass( THREE.VerticalBlurShader );
-				
-			blurSize = 3;
-			 
-			horizontalBlur.uniforms.h.value = blurSize / width;
-			verticalBlur.uniforms.v.value = blurSize / height;
-			 
-			godRays = new THREE.ShaderPass( THREE.Extras.Shaders.Godrays );
-			 
-			occlusionRenderTarget = new THREE.WebGLRenderTarget( halfWidth, halfHeight, { minFilter: THREE.LinearFilter } );
-
-			occlusionComposer = new THREE.EffectComposer( renderer, occlusionRenderTarget );
-			occlusionComposer.addPass( occlusionRender );
-			occlusionComposer.addPass( horizontalBlur );
-			occlusionComposer.addPass( verticalBlur );
-			occlusionComposer.addPass( horizontalBlur );
-			occlusionComposer.addPass( verticalBlur );
-			occlusionComposer.addPass( godRays );
-
-			sceneRender = new THREE.RenderPass( scene, camera );
-			 
-			add = new THREE.ShaderPass( THREE.Extras.Shaders.Additive );
-			add.renderToScreen = true;
-			 
-			finalComposer = new THREE.EffectComposer( renderer );
-			finalComposer.addPass( sceneRender );
-			finalComposer.addPass( add );
-				*/
 
 				var width = window.innerWidth,
 					height = window.innerHeight,

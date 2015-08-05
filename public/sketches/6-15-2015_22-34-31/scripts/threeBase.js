@@ -44,8 +44,16 @@
 			},
 
 			onResize = function(){
-				var width = window.innerWidth,
+				var width,
+					height;
+
+				if(window.innerWidth > 800){
+					width = window.innerWidth,
 					height = window.innerWidth / aspectRatio;
+				}else{
+					width = window.innerWidth,
+					height = window.innerHeight;
+				}
 
 				renderer().setSize( width, height );
 				camera().aspect = width / height;

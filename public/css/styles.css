@@ -1,10 +1,16 @@
 html{
+	background-color: #111;
+	height: 100%;
 	font-family: "Podkova", serif;
 }
 
 body{
+	background-color: #fff;
 	color: #333;
-	margin: 0;
+	margin: -1px 0 0 0;
+	min-height: 100%;
+	padding-top: 1px;
+	position: relative;
 }
 
 a:link, a:visited{
@@ -18,54 +24,244 @@ a:hover{
 
 h1{
 	font-family: inherit;
+	font-size: 1.25em;
 	line-height: 1;
+	margin: 0;
+	position: relative;
+		z-index: 200;
 }
 
 blockquote{
+	margin-right: 1.5em;
+	margin-left: 1.5em;
 	position: relative;
-	float: left;
-	margin-left: 0;
 }
 
 blockquote:before,
 blockquote:after{
-	color: #eee;
-	font-size: 10em;
-	position: absolute;
-		z-index: -1;
+	
 }
 
 blockquote:before {
-	top: -0.2em;
-	left: -0.3em;
+	color: #eee;
 	content: '\201C';
+	font-size: 7em;
+	position: absolute;
+		top: -0.3em;
+		left: -0.3em;
+		z-index: 100;
 }
 
 blockquote:after {
-	bottom: -0.35em;
-	right: -0.25em;
-	content: '\201D';
-}
-
-.Container{
-	margin: 0 auto;
-	max-width: 1152px;
+	display: table;
+	clear: both;
+	content: ' ';
 }
 
 .ProjectGrid{
-	clear: left;
 	list-style: none;
+	margin-top: 0;
+	margin-bottom: 0;
 	padding-left: 0;
-}
-
-.ProjectGrid li{
-	float: left;
 }
 
 .ProjectGrid img{
 	display: block;
+	width: 100%;
 }
 
 .text-right{
 	text-align: right;
+}
+
+.Sketch{
+	background-color: #000;
+	overflow: hidden;
+}
+
+canvas{
+	background-color: #333;
+	display: block;
+}
+
+.BackContainer{
+	position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 200;
+}
+
+.BackContainer a,
+.GithubContainer a{
+	display: block;
+	padding: 1em;
+}
+
+.BackContainer svg,
+.GithubContainer svg{
+	background-color: rgba(0, 0, 0, 0.6);
+	border-radius: 100%;
+	padding: 0.2em;
+}
+
+svg{
+	fill: #fff;
+}
+
+.GithubContainer{
+	position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 200;
+}
+
+.LeftContainer,
+.RightContainer{
+	display: none;
+	position: absolute;
+		top: 0;
+		bottom: 0;
+		z-index: 100;
+	width: 25%;
+}
+.LeftContainer{
+	left: 0;
+}
+.RightContainer{
+	right: 0;
+}
+
+.ArrowContainer{
+	background-color: rgba(0, 0, 0, 0.6);
+	border-radius: 100%;
+	display: flex;
+	margin: auto;
+	opacity: 0;
+	transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+	width: 3em;
+	height: 3em;
+}
+
+.LeftContainer .ArrowContainer{
+	margin-left: 2em;
+	transform: translateX(1em);
+}
+.RightContainer .ArrowContainer{
+	margin-right: 2em;
+	transform: translateX(-1em);
+}
+
+.LeftContainer:hover .ArrowContainer,
+.RightContainer:hover .ArrowContainer{
+	opacity: 1;
+	transform: translateX(0);
+}
+
+.ArrowContainer svg{
+	display: block;
+	margin: auto;
+}
+
+.Page{
+	background-color: #333;
+	position: absolute;
+		top: 0;
+		z-index: 300;
+	width: 100%;
+	height: 100%;
+}
+
+.transition--offLeft{
+	-webkit-transform: translateX(-100%);
+			transform: translateX(-100%);
+
+	-webkit-transition: -webkit-transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+			transition: 		transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.transition--offRight{
+	-webkit-transform: translateX(100%);
+			transform: translateX(100%);
+
+	-webkit-transition: -webkit-transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+			transition: 		transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (min-width: 500px) {
+
+	blockquote{
+		float: left;
+	}
+
+	h1{
+		font-size: 1.5em;
+	}
+
+	.ProjectGrid{
+		clear: left;
+	}
+
+	.ProjectGrid:before,
+	.ProjectGrid:after{
+		content: " ";
+		display: table;
+		clear: both;
+	}
+
+	.ProjectGrid li{
+		float: left;
+		width: 50%;
+	}
+
+	.Sketch{
+		display: flex;
+	}
+
+	canvas{
+		margin: auto;
+	}
+
+	.LeftContainer,
+	.RightContainer{
+		display: flex;
+	}
+
+	.transition--offLeft{
+		opacity: 0;
+
+		-webkit-transform: translateX(-10%);
+				transform: translateX(-10%);
+
+		-webkit-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+				transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+	}
+
+	.transition--offRight{
+		opacity: 0;
+
+		-webkit-transform: translateX(10%);
+				transform: translateX(10%);
+
+		-webkit-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+				transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+	}
+
+}
+
+
+@media (min-width: 1000px) {
+	
+	.Container{
+		margin: 0 auto;
+		max-width: 1152px;
+	}
+
+	h1{
+		font-size: 2em;
+	}
+	
+	.ProjectGrid li{
+		width: 33.333333%;
+	}
+
 }

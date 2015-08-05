@@ -5,6 +5,8 @@
 		var scene = three.scene(),
 			camera = three.camera(),
 			renderer = three.renderer(),
+			cameraTarget = new THREE.Object3D(),
+			tempPostition = new THREE.Vector3(),
 			container,
 			model,
 			previousModel,
@@ -21,7 +23,9 @@
 						return new THREE.Color('rgb('+(68+num)+', '+(55+num)+', '+(20+num)+')');
 					}
 
-				geometry = new THREE.SphereGeometry( 50 );
+				renderer.setClearColor( 0x333333 );
+
+				geometry = new THREE.SphereGeometry( 500 );
 				material = new THREE.MeshPhongMaterial( { 
 									color: 0xffffed, 
 									side:THREE.BackSide, 
@@ -54,17 +58,48 @@
 				scene.add(bounceLight);
 				bounceLight.position.set( -1, -1, -1 );
 
-				renderer.setClearColor( 0x333333 );
+				camera.position.z = 300;
+				cameraTarget.position.z = distanceToFitObjectInFrustum(container, camera, renderer.domElement) - 15;
 
-				camera.position.z = 50;
+				window.addEventListener('resize', function(){
+					cameraTarget.position.z = distanceToFitObjectInFrustum(container, camera, renderer.domElement)  - 15;
+				});
+
 			},
 			
+			distanceToFitObjectInFrustum = function(object, camera, canvas){
+				
+				var cameraDistance,
+					bbox = new THREE.Box3().setFromObject(object),
+					width  = bbox.size().x,
+					height = bbox.size().y,
+					aspectRatio = canvas.width / canvas.height,
+					fieldOfView = camera.fov,
+					closestFace = bbox.max.z;
+
+				if(canvas.width < canvas.height){
+					// portrait - size via width
+					cameraDistance = ( width / aspectRatio ) / 2 / Math.tan( Math.PI * fieldOfView / 360 );
+				}else{
+					// landscape - size by height
+					cameraDistance = height / 2 / Math.tan( Math.PI * fieldOfView / 360 );
+				}
+				
+				cameraDistance += closestFace;
+
+				return cameraDistance
+			},
+
 			update = function(timestep){
 				var rotationVelocity = 0.0005;
 				
 				model.clone(previousModel);
 				model.rotation.x += rotationVelocity/2 * timestep;
 				model.rotation.y += rotationVelocity * timestep;
+
+				 // ( target - current ) / easing
+				tempPostition.subVectors(cameraTarget.position, camera.position).multiplyScalar(0.05);
+				camera.position.add(tempPostition);
 				
 			},
 			
