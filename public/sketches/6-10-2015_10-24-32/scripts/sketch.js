@@ -19,9 +19,7 @@
 
 				renderer.setClearColor( 0xffffff );
 
-				camera.position.z = 25;
-
-				new THREE.OBJLoader().load('skull.obj', populateScene);
+				new THREE.OBJLoader().load( assetPath + 'skull.obj', populateScene);
 
 			},
 
@@ -37,6 +35,34 @@
 					scene.add(currentSkull);
 					skulls.push({container:currentSkull, rotationVelocity: Math.random() * 0.001});
 				};
+
+				camera.position.z = distanceToFitObjectInFrustum(scene, camera, renderer.domElement);
+				window.addEventListener('resize', function(){
+					camera.position.z = distanceToFitObjectInFrustum(scene, camera, renderer.domElement);
+				});
+			},
+
+			distanceToFitObjectInFrustum = function(object, camera, canvas){
+				
+				var cameraDistance,
+					bbox = new THREE.Box3().setFromObject(object),
+					width  = bbox.size().x,
+					height = bbox.size().y,
+					aspectRatio = canvas.width / canvas.height,
+					fieldOfView = camera.fov,
+					closestFace = bbox.max.z;
+
+				if(canvas.width < canvas.height){
+					// portrait - size via width
+					cameraDistance = ( width / aspectRatio ) / 2 / Math.tan( Math.PI * fieldOfView / 360 );
+				}else{
+					// landscape - size by height
+					cameraDistance = height / 2 / Math.tan( Math.PI * fieldOfView / 360 );
+				}
+				
+				cameraDistance += closestFace;
+
+				return cameraDistance
 			},
 			
 			update = function(timestep){
